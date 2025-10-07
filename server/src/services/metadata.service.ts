@@ -11,15 +11,15 @@ import { StorageCore } from 'src/cores/storage.core';
 import { Asset, AssetFace } from 'src/database';
 import { OnEvent, OnJob } from 'src/decorators';
 import {
-  AssetType,
-  AssetVisibility,
-  DatabaseLock,
-  ExifOrientation,
-  ImmichWorker,
-  JobName,
-  JobStatus,
-  QueueName,
-  SourceType,
+    AssetType,
+    AssetVisibility,
+    DatabaseLock,
+    ExifOrientation,
+    ImmichWorker,
+    JobName,
+    JobStatus,
+    QueueName,
+    SourceType,
 } from 'src/enum';
 import { ArgOf } from 'src/repositories/event.repository';
 import { ReverseGeocodeResult } from 'src/repositories/map.repository';
@@ -239,7 +239,7 @@ export class MetadataService extends BaseService {
       latitude = exifTags.GPSLatitude;
       longitude = exifTags.GPSLongitude;
       if (reverseGeocoding.enabled) {
-        geo = await this.mapRepository.reverseGeocode({ latitude, longitude });
+        geo = await this.mapRepository.reverseGeocode({ latitude, longitude }, reverseGeocoding.photonUrl);
       }
     }
 

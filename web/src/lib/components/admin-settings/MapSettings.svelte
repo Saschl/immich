@@ -84,6 +84,17 @@
               {disabled}
               bind:checked={config.reverseGeocoding.enabled}
             />
+
+            <hr />
+
+            <SettingInputField
+              inputType={SettingInputFieldType.TEXT}
+              label="Photon URL"
+              description="URL for the Photon reverse geocoding service (leave empty to use local reverse geocoding)"
+              bind:value={config.reverseGeocoding.photonUrl}
+              disabled={disabled || !config.reverseGeocoding.enabled}
+              isEdited={config.reverseGeocoding.photonUrl !== savedConfig.reverseGeocoding.photonUrl}
+            />
           </div></SettingAccordion
         >
 

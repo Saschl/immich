@@ -39,6 +39,23 @@ export interface MapMarker extends ReverseGeocodeResult {
   lon: number;
 }
 
+interface PhotonFeature {
+  properties: {
+    name?: string;
+    city?: string;
+    town?: string;
+    village?: string;
+    suburb?: string;
+    state?: string;
+    country?: string;
+    countrycode?: string;
+  };
+}
+
+interface PhotonResponse {
+  features: PhotonFeature[];
+}
+
 interface MapDB extends DB {
   geodata_places_tmp: GeodataPlacesTable;
   naturalearth_countries_tmp: NaturalEarthCountriesTable;
@@ -138,8 +155,48 @@ export class MapRepository {
       .execute();
   }
 
-  async reverseGeocode(point: GeoPoint): Promise<ReverseGeocodeResult> {
-    this.logger.debug(`Request: ${point.latitude},${point.longitude}`);
+  async reverseGeocode(point: GeoPoint, photonUrl?: string): Promise<ReverseGeocodeResult> {
+    if (photonUrl) {
+      return this.reverseGeocodeWithPhoton(point, photonUrl);
+    }
+    return this.reverseGeocodeLocal(point);
+  }
+
+  private async reverseGeocodeWithPhoton(point: GeoPoint, photonUrl: string): Promise<ReverseGeocodeResult> {
+    try {
+      const url = `${photonUrl}/reverse?lat=${point.latitude}&lon=${point.longitude}&radius=25`;
+      this.logger.debug(`Photon request: ${url}`);
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Photon API returned ${response.status}: ${response.statusText}`);
+      }
+
+      const data: PhotonResponse = await response.json();
+
+      if (data.features && data.features.length > 0) {
+        const feature = data.features[0];
+        const props = feature.properties;
+
+        const city = props.city || props.town || props.village || props.suburb || props.name || null;
+        const state = props.state || null;
+        const country = props.country || null;
+
+        this.logger.log(`Photon response: ${JSON.stringify({ city, state, country }, null, 2)}`);
+
+        return { city, state, country };
+      }
+
+      this.logger.log(`Empty response from Photon API for lat: ${point.latitude}, lon: ${point.longitude}`);
+      return { country: null, state: null, city: null };
+    } catch (error) {
+      this.logger.error(`Photon API error: ${error}. Falling back to local geocoding.`);
+      return this.reverseGeocodeLocal(point);
+    }
+  }
+
+  private async reverseGeocodeLocal(point: GeoPoint): Promise<ReverseGeocodeResult> {
+    this.logger.debug(`Local geocoding request: ${point.latitude},${point.longitude}`);
 
     const response = await this.db
       .selectFrom('geodata_places')

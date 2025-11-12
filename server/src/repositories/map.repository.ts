@@ -42,6 +42,7 @@ export interface MapMarker extends ReverseGeocodeResult {
 interface PhotonFeature {
   properties: {
     name?: string;
+    district?: string;
     city?: string;
     town?: string;
     village?: string;
@@ -164,7 +165,7 @@ export class MapRepository {
 
   private async reverseGeocodeWithPhoton(point: GeoPoint, photonUrl: string): Promise<ReverseGeocodeResult> {
     try {
-      const url = `${photonUrl}/reverse?lat=${point.latitude}&lon=${point.longitude}&radius=25`;
+      const url = `${photonUrl}/reverse?lat=${point.latitude}&lon=${point.longitude}&radius=25&lang=de`;
       this.logger.debug(`Photon request: ${url}`);
 
       const response = await fetch(url);
@@ -178,13 +179,19 @@ export class MapRepository {
         const feature = data.features[0];
         const props = feature.properties;
 
-        const city = props.city || props.town || props.village || props.suburb || props.name || null;
+        const city = props.district || props.city || props.town || props.village || props.suburb || props.name || null;
         const state = props.state || null;
         const country = props.country || null;
+        const name = props.name || null;
 
-        this.logger.log(`Photon response: ${JSON.stringify({ city, state, country }, null, 2)}`);
+        for (const f of data.features) {
+          this.logger.error(`Photon response: ${JSON.stringify(f)}`);
+        }
 
-        return { city, state, country };
+        const formattedCity =
+          name == null ? city : `${city} ${props.district}` == null ? name : `${name} (${city}, ${props.district})`;
+
+        return { city: formattedCity, state, country };
       }
 
       this.logger.log(`Empty response from Photon API for lat: ${point.latitude}, lon: ${point.longitude}`);

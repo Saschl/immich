@@ -24,7 +24,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: saschl/immich-server
-          tags: type=semver,pattern={{major}}.{{minor}}.{{patch}}
+          tags: |
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=ref,event=branch
       - name: Build with docker
         run: docker build -t ghcr.io/saschl/immich-server:${{ steps.meta.outputs.version }} -f server/Dockerfile .
       - name: login to registry

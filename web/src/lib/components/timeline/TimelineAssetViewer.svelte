@@ -13,7 +13,7 @@
 
   interface Props {
     timelineManager: TimelineManager;
-    showSkeleton: boolean;
+    invisible: boolean;
     withStacked?: boolean;
     isShared?: boolean;
     album?: AlbumResponseDto | null;
@@ -30,7 +30,7 @@
 
   let {
     timelineManager,
-    showSkeleton = $bindable(false),
+    invisible = $bindable(false),
     removeAction,
     withStacked = false,
     isShared = false,
@@ -81,7 +81,7 @@
 
   const handleClose = async (asset: { id: string }) => {
     assetViewingStore.showAssetViewer(false);
-    showSkeleton = true;
+    invisible = true;
     $gridScrollTarget = { at: asset.id };
     await navigate({ targetRoute: 'current', assetId: null, assetGridRouteSearchParams: $gridScrollTarget });
   };
@@ -117,6 +117,16 @@
 
       case AssetAction.ADD: {
         timelineManager.addAssets([action.asset]);
+        break;
+      }
+
+      case AssetAction.STACK: {
+        updateStackedAssetInTimeline(timelineManager, {
+          stack: action.stack,
+          toDeleteIds: action.stack.assets
+            .filter((asset) => asset.id !== action.stack.primaryAssetId)
+            .map((asset) => asset.id),
+        });
         break;
       }
 
@@ -159,7 +169,7 @@
   };
 </script>
 
-{#await import('../asset-viewer/asset-viewer.svelte') then { default: AssetViewer }}
+{#await import('$lib/components/asset-viewer/asset-viewer.svelte') then { default: AssetViewer }}
   <AssetViewer
     {withStacked}
     asset={$viewingAsset}

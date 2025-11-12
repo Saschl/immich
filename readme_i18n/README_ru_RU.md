@@ -28,7 +28,8 @@
   <a href="README_de_DE.md">Deutsch</a>
   <a href="README_nl_NL.md">Nederlands</a>
   <a href="README_tr_TR.md">Türkçe</a>
-  <a href="README_zh_CN.md">中文</a>
+  <a href="README_zh_CN.md">简体中文</a>
+  <a href="README_zh_TW.md">正體中文</a>
   <a href="README_uk_UA.md">Українська</a>
   <a href="README_pt_BR.md">Português Brasileiro</a>
   <a href="README_sv_SE.md">Svenska</a>
@@ -93,7 +94,7 @@
 | LivePhoto/MotionPhoto воспроизведение и бекап          | Да         | Да  |
 | Отображение 360° изображений                           | Нет        | Да  |
 | Настраиваемая структура хранилища                      | Да         | Да  |
-| Общий доступ к контенту                                | Нет        | Да  |
+| Общий доступ к контенту                                | Да         | Да  |
 | Архив и избранное                                      | Да         | Да  |
 | Мировая карта                                          | Да         | Да  |
 | Совместное использование                               | Да         | Да  |
@@ -103,7 +104,7 @@
 | Галереи только для просмотра                           | Да         | Да  |
 | Коллажи                                                | Да         | Да  |
 | Метки (теги)                                           | Нет        | Да  |
-| Просмотр папкой                                        | Нет        | Да  |
+| Просмотр папкой                                        | Да         | Да  |
 
 ## Перевод
 

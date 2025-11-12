@@ -1,0 +1,33 @@
+name: build-ui
+on:
+  workflow_dispatch:
+
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ui:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: saschl/immich-server
+          tags: type=semver,pattern={{major}}.{{minor}}.{{patch}}
+      - name: Build with docker
+        run: docker build -t ghcr.io/saschl/immich-server:${{ steps.meta.outputs.version }} -f server/Dockerfile .
+      - name: login to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u Saschl --password-stdin
+      - name: push to registry
+        run: docker push ghcr.io/saschl/immich-server:${{ steps.meta.outputs.version }}

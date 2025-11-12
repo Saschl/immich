@@ -1522,6 +1522,7 @@ export type SystemConfigPasswordLoginDto = {
 };
 export type SystemConfigReverseGeocodingDto = {
     enabled: boolean;
+    photonUrl: string;
 };
 export type SystemConfigServerDto = {
     externalDomain: string;

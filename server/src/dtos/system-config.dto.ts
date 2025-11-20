@@ -471,6 +471,9 @@ class SystemConfigPasswordLoginDto {
 class SystemConfigReverseGeocodingDto {
   @ValidateBoolean({ description: 'Enabled' })
   enabled!: boolean;
+
+  @IsString()
+  photonUrl!: string;
 }
 
 class SystemConfigFacesDto {

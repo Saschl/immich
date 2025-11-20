@@ -14,25 +14,31 @@ class SystemConfigReverseGeocodingDto {
   /// Returns a new [SystemConfigReverseGeocodingDto] instance.
   SystemConfigReverseGeocodingDto({
     required this.enabled,
+    required this.photonUrl,
   });
 
   bool enabled;
 
+  String photonUrl;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is SystemConfigReverseGeocodingDto &&
-    other.enabled == enabled;
+    other.enabled == enabled &&
+    other.photonUrl == photonUrl;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (enabled.hashCode);
+    (enabled.hashCode) +
+    (photonUrl.hashCode);
 
   @override
-  String toString() => 'SystemConfigReverseGeocodingDto[enabled=$enabled]';
+  String toString() => 'SystemConfigReverseGeocodingDto[enabled=$enabled, photonUrl=$photonUrl]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'enabled'] = this.enabled;
+      json[r'photonUrl'] = this.photonUrl;
     return json;
   }
 
@@ -46,6 +52,7 @@ class SystemConfigReverseGeocodingDto {
 
       return SystemConfigReverseGeocodingDto(
         enabled: mapValueOfType<bool>(json, r'enabled')!,
+        photonUrl: mapValueOfType<String>(json, r'photonUrl')!,
       );
     }
     return null;
@@ -94,6 +101,7 @@ class SystemConfigReverseGeocodingDto {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'enabled',
+    'photonUrl',
   };
 }
 

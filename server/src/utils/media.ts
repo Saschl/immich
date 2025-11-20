@@ -130,6 +130,7 @@ export class BaseConfig implements VideoCodecSWConfig {
       `-map 0:${videoStream.index}`,
       // Strip metadata like capture date, camera, and GPS
       '-map_metadata -1',
+      '-fflags +igndts',
     ];
 
     if (audioStream) {

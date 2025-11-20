@@ -89,6 +89,7 @@ export type SystemConfig = {
   };
   reverseGeocoding: {
     enabled: boolean;
+    photonUrl: string;
   };
   metadata: {
     faces: {
@@ -280,6 +281,7 @@ export const defaults = Object.freeze<SystemConfig>({
   },
   reverseGeocoding: {
     enabled: true,
+    photonUrl: '',
   },
   metadata: {
     faces: {

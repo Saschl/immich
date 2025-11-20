@@ -28,8 +28,10 @@ export class MapService extends BaseService {
 
   async reverseGeocode(dto: MapReverseGeocodeDto) {
     const { lat: latitude, lon: longitude } = dto;
+    const { reverseGeocoding } = await this.getConfig({ withCache: true });
+    
     // eventually this should probably return an array of results
-    const result = await this.mapRepository.reverseGeocode({ latitude, longitude });
+    const result = await this.mapRepository.reverseGeocode({ latitude, longitude }, reverseGeocoding.photonUrl);
     return result ? [result] : [];
   }
 }

@@ -259,7 +259,7 @@ export class MetadataService extends BaseService {
       latitude = Number(exifTags.GPSLatitude);
       longitude = Number(exifTags.GPSLongitude);
       if (reverseGeocoding.enabled) {
-        geo = await this.mapRepository.reverseGeocode({ latitude, longitude });
+        geo = await this.mapRepository.reverseGeocode({ latitude, longitude }, reverseGeocoding.photonUrl);
       }
     }
 

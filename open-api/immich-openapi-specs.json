@@ -24679,10 +24679,14 @@
           "enabled": {
             "description": "Enabled",
             "type": "boolean"
+          },
+          "photonUrl": {
+            "type": "string"
           }
         },
         "required": [
-          "enabled"
+          "enabled",
+          "photonUrl"
         ],
         "type": "object"
       },

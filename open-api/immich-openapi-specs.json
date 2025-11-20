@@ -23054,10 +23054,14 @@
         "properties": {
           "enabled": {
             "type": "boolean"
+          },
+          "photonUrl": {
+            "type": "string"
           }
         },
         "required": [
-          "enabled"
+          "enabled",
+          "photonUrl"
         ],
         "type": "object"
       },

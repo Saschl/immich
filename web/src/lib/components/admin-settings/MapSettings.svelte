@@ -73,9 +73,9 @@
               inputType={SettingInputFieldType.TEXT}
               label="Photon URL"
               description="URL for the Photon reverse geocoding service (leave empty to use local reverse geocoding)"
-              bind:value={config.reverseGeocoding.photonUrl}
-              disabled={disabled || !config.reverseGeocoding.enabled}
-              isEdited={config.reverseGeocoding.photonUrl !== savedConfig.reverseGeocoding.photonUrl}
+              bind:value={configToEdit.reverseGeocoding.photonUrl}
+              disabled={disabled || !configToEdit.reverseGeocoding.enabled}
+              isEdited={configToEdit.reverseGeocoding.photonUrl !== config.reverseGeocoding.photonUrl}
             />
           </div></SettingAccordion
         >
